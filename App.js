@@ -1,20 +1,39 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { ProductListPage } from './src/pages/ProductListPage';
+import { ContainerDetailsProduct } from './src/container/ContainerDetailsProduct';
+import { AboutPage } from './src/pages/AboutPage';
 
-export default function App() {
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+
+const Stack = createNativeStackNavigator();
+const Drawer = createDrawerNavigator();
+
+function ProductStackNavigator() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Stack.Navigator initialRouteName="ProductListPage">
+      <Stack.Screen name="ProductListPage" component={ProductListPage} options={{ title: "Lista de Produtos" }} />
+      <Stack.Screen name="ContainerDetailsProduct" component={ContainerDetailsProduct} options={{ headerShown: false }} />
+    </Stack.Navigator>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+function AboutStackNavigator() {
+  return (
+    <Stack.Navigator initialRouteName="AboutPage">
+      <Stack.Screen name="AboutPage" component={AboutPage} options={{ headerShown: false }}/>
+    </Stack.Navigator>
+  );
+}
+
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Drawer.Navigator initialRouteName="ProductStackNavigator">
+        <Drawer.Screen name="ProductStackNavigator" component={ProductStackNavigator} options={{ title: 'Produtos' }} />
+        <Drawer.Screen name="ProductListPage" component={ProductListPage} options={{ title: 'Lista de Produtos' }} />
+        <Drawer.Screen name="AboutStackNavigator" component={AboutStackNavigator} options={{ title: 'Sobre' }} />
+      </Drawer.Navigator>
+    </NavigationContainer>
+  );
+}
